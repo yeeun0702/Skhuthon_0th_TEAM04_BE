@@ -47,10 +47,18 @@ public class MemberService {
     @Transactional(readOnly = true)
     public LoginMemberResponseDto findLoginMemberByToken(final String token) {
         final String memberName = tokenProvider.getPayload(token);
-        final Member member = memberRepository.findByMemberName(memberName);
-        if (member == null) {
-            throw new IllegalArgumentException("존재하지 않는 사용자입니다.");
-        }
+        final Member member = memberRepository.findByMemberName(memberName)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
         return LoginMemberResponseDto.from(member);
     }
+
+//    @Transactional(readOnly = true)
+//    public LoginMemberResponseDto findLoginMemberByToken(final String token) {
+//        final String memberName = tokenProvider.getPayload(token);
+//        final Member member = memberRepository.findByMemberName(memberName);
+//        if (member == null) {
+//            throw new IllegalArgumentException("존재하지 않는 사용자입니다.");
+//        }
+//        return LoginMemberResponseDto.from(member);
+//    }
 }
