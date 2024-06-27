@@ -6,6 +6,7 @@ import com.example.sharediary.member.dto.response.MemberResponseDto;
 import com.example.sharediary.member.dto.response.TokenResponseDto;
 import com.example.sharediary.member.service.CookieService;
 import com.example.sharediary.member.service.MemberService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
 
+@Tag(name = "사용자 API", description = "Swagger 사용자 API")
 @RestController
 @RequestMapping("/members")
 public class MemberController {
