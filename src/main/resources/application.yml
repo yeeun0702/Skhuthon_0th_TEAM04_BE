@@ -25,3 +25,6 @@ jwt:
   header: ${jwt.header}
   secret: ${jwt.secret}
   token-validity-in-seconds: ${token-validity-in-seconds}
+
+
+
