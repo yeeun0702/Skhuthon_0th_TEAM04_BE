@@ -30,6 +30,7 @@ public class DiaryService {
         Diary diary = Diary.builder()
                 .title(diaryRequestDto.getTitle())
                 .content(diaryRequestDto.getContent())
+                .sing(diaryRequestDto.getSing())
                 .member(member)
                 .build();
         diaryRepository.save(diary);
@@ -47,6 +48,7 @@ public class DiaryService {
                     .diaryId(diary.getDiaryId())
                     .title(diary.getTitle())
                     .content(diary.getContent())
+                    .sing(diary.getSing())
                     .memberName(diary.getMember().getMemberName())
                     .build();
             diaryDtoRead.add(diaryDto);

@@ -31,9 +31,14 @@ public class Diary {
     @Column(name = "DIARY_CONTENT", columnDefinition = "TEXT", nullable = false)
     private String content;
 
+    @Column(name = "SING", nullable = false)
+    private String sing;
+
+
     public void update(DiaryRequestDto diaryRequestDto) {
         this.title = diaryRequestDto.getTitle();
         this.content = diaryRequestDto.getContent();
+        this. sing = diaryRequestDto.getSing();
     }
 
 }

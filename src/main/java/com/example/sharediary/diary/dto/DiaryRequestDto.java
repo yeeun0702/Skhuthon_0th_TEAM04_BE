@@ -12,6 +12,7 @@ public class DiaryRequestDto {
     private Long diaryId;
     private String content;
     private String title;
+    private String sing;
     private Member member;
 
 }
