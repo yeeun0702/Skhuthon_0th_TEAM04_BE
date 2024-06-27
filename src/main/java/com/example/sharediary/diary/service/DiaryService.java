@@ -68,10 +68,16 @@ public class DiaryService {
         diaryRepository.save(diary);
     }
 
+    // 일기장 삭제하기
     @Transactional
-    public void deleteDiary(Long diaryId) {
+    public void deleteDiary(Long diaryId, Long memberId) {
         Diary diary = diaryRepository.findById(diaryId).orElseThrow(
                 () -> new IllegalArgumentException("해당 일기가 없습니다. id=" + diaryId));
+
+        if (!diary.getMember().getId().equals(memberId)) {
+            throw new IllegalArgumentException("삭제 권한이 없습니다.");
+        }
+
         diaryRepository.delete(diary);
     }
 }
