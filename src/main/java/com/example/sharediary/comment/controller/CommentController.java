@@ -3,9 +3,13 @@ package com.example.sharediary.comment.controller;
 import com.example.sharediary.comment.dto.CommentRequestDto;
 import com.example.sharediary.comment.dto.CommentResponseDto;
 import com.example.sharediary.comment.service.CommentService;
+import com.example.sharediary.diary.dto.PagedResponse;
 import com.example.sharediary.member.dto.request.LoginMemberResponseDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +31,20 @@ public class CommentController {
     }
 
     @GetMapping("/read/{diaryId}")
-    public ResponseEntity<List<CommentResponseDto>> getCommentLists(@PathVariable("diaryId") Long diaryId) {
-        List<CommentResponseDto> commentResponseDtoList = commentService.getCommentLists(diaryId);
+    public ResponseEntity<PagedResponse<CommentResponseDto>> getCommentLists(@PathVariable("diaryId") Long diaryId,
+        @RequestParam(value = "page", defaultValue = "0") int page,
+        @RequestParam(value = "size", defaultValue = "10") int size,
+        @RequestParam(value = "sort", defaultValue = "commentId, asc") String sort
+    ) {
+        Pageable pageable;
+        if (sort.isEmpty()) {
+            pageable = PageRequest.of(page, size, Sort.by("commentId").ascending());
+        } else  {
+            String[] sortParams = sort.split(",");
+            Sort sortOrder = Sort.by(Sort.Direction.fromString((sortParams[1]).trim()), sortParams[0].trim());
+            pageable = PageRequest.of(page, size, sortOrder);
+        }
+        PagedResponse<CommentResponseDto> commentResponseDtoList = commentService.getCommentLists(diaryId, pageable);
         return ResponseEntity.ok(commentResponseDtoList);
     }
 
