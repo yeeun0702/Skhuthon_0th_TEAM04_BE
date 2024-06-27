@@ -2,6 +2,7 @@ package com.example.sharediary.diary.controller;
 
 import com.example.sharediary.diary.dto.DiaryRequestDto;
 import com.example.sharediary.diary.dto.DiaryResponseDto;
+import com.example.sharediary.diary.dto.PagedResponse;
 import com.example.sharediary.diary.service.DiaryService;
 import com.example.sharediary.member.domain.Member;
 import com.example.sharediary.member.dto.request.LoginMemberResponseDto;
@@ -9,6 +10,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -38,9 +42,26 @@ public class DiaryController {
     // 일기장 조회하기
     @Operation(summary = "전체 일기장 불러오기", description = "일기장 전체를 불러오기. 근데 페이징 처리 안됨.")
     @GetMapping("/read")
-    public ResponseEntity<List<DiaryResponseDto>> readDiary() {
-        List<DiaryResponseDto> diaries = diaryService.readDiary();
-        return new ResponseEntity<>(diaryService.readDiary(), HttpStatus.OK);
+    public ResponseEntity<PagedResponse<DiaryResponseDto>> readDiary(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            @RequestParam(value = "sort", defaultValue = "diaryId, asc") String sort
+    ) {
+        Pageable pageable;
+        if (sort.isEmpty()) {
+            // PageRequest.of: 정렬 기준 - diaryId, 오름차순 정렬하는 Pageable 객체 생성
+            pageable = PageRequest.of(page, size, Sort.by("diaryId").ascending());
+        } else {
+            // sort 파라미터가 제공된 경우 이를 ,로 분리하여 정렬기준, 정렬 방향 추출
+            String[] sortParams = sort.split(",");
+            // Sort.Direction.fromString(sortParams[1]): 정렬 방향
+            // sortParams[0]: 정렬 기준
+            Sort sortOrder = Sort.by(Sort.Direction.fromString((sortParams[1]).trim()), sortParams[0].trim()    );
+            pageable = PageRequest.of(page, size, sortOrder);
+        }
+
+        PagedResponse<DiaryResponseDto> diaries = diaryService.readDiary(pageable);
+        return new ResponseEntity<>(diaries, HttpStatus.OK);
     }
 
     @Operation(summary = "일기장 수정", description = "일기장 ID를 가지고 일기장을 수정하는 API")
