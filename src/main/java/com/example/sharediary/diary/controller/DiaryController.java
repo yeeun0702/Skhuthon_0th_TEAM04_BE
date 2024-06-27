@@ -43,7 +43,9 @@ public class DiaryController {
         return new ResponseEntity<>(diaryService.readDiary(), HttpStatus.OK);
     }
 
-    // 일기장 수정하기
+    @Operation(summary = "일기장 수정", description = "일기장 ID를 가지고 일기장을 수정하는 API")
+    @Parameter(name = "diaryId", description = "일기장의 고유 ID(PK)")
+    @Parameter(name = "diaryRequestDto", description = "수정할 내용을 담고 있는 변수 / 클라이언트에게 받는다.")
     @PutMapping("/update/{diaryId}")
     public ResponseEntity<String> updateDiary(@PathVariable Long diaryId, @RequestBody DiaryRequestDto diaryRequestDto, LoginMemberResponseDto member) {
         Long memberId = member.id();
@@ -51,10 +53,12 @@ public class DiaryController {
         return new ResponseEntity<>("일기장 수정 완료", HttpStatus.OK);
     }
 
-    // 일기장 삭제하기
+    @Operation(summary = "일기장 삭제", description = "일기장 고유 ID를 가지고 게시글을 삭제하는 API")
+    @Parameter(name = "diaryId", description = "일기장의 고유 ID(PK)")
     @DeleteMapping("/delete/{diaryId}")
-    public ResponseEntity<String> deleteDiary(@PathVariable Long diaryId) {
-        diaryService.deleteDiary(diaryId);
+    public ResponseEntity<String> deleteDiary(@PathVariable Long diaryId, LoginMemberResponseDto member) {
+        Long memberId = member.id();
+        diaryService.deleteDiary(diaryId, memberId);
         return new ResponseEntity<>("일기장 삭제 완료", HttpStatus.OK);
     }
 }
