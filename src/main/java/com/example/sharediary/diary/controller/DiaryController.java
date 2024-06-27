@@ -31,7 +31,7 @@ public class DiaryController {
     @Operation(summary = "일기장 작성", description = "클라이언트에게 내용과 제목을 입력받아 데이터베이스에 저장")
     @Parameter(name = "diaryRequestDto", description = "클라이언트에게 입력받는 부분")
     @Parameter(name = "member", description = "현재 로그인되어 있는 사용자를 받기 위한 Member 객체")
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<String> createDiary(@RequestBody DiaryRequestDto diaryRequestDto, LoginMemberResponseDto member) {
         // ArgumentResolver
         Long memberId = member.id();
@@ -41,7 +41,7 @@ public class DiaryController {
 
     // 일기장 조회하기
     @Operation(summary = "전체 일기장 불러오기", description = "일기장 전체를 불러오기. 근데 페이징 처리 안됨.")
-    @GetMapping
+    @GetMapping("/read")
     public ResponseEntity<PagedResponse<DiaryResponseDto>> readDiary(
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size,
@@ -64,7 +64,9 @@ public class DiaryController {
         return new ResponseEntity<>(diaries, HttpStatus.OK);
     }
 
-    // 일기장 수정하기
+    @Operation(summary = "일기장 수정", description = "일기장 ID를 가지고 일기장을 수정하는 API")
+    @Parameter(name = "diaryId", description = "일기장의 고유 ID(PK)")
+    @Parameter(name = "diaryRequestDto", description = "수정할 내용을 담고 있는 변수 / 클라이언트에게 받는다.")
     @PutMapping("/update/{diaryId}")
     public ResponseEntity<String> updateDiary(@PathVariable Long diaryId, @RequestBody DiaryRequestDto diaryRequestDto, LoginMemberResponseDto member) {
         Long memberId = member.id();
@@ -72,10 +74,12 @@ public class DiaryController {
         return new ResponseEntity<>("일기장 수정 완료", HttpStatus.OK);
     }
 
-    // 일기장 삭제하기
+    @Operation(summary = "일기장 삭제", description = "일기장 고유 ID를 가지고 게시글을 삭제하는 API")
+    @Parameter(name = "diaryId", description = "일기장의 고유 ID(PK)")
     @DeleteMapping("/delete/{diaryId}")
-    public ResponseEntity<String> deleteDiary(@PathVariable Long diaryId) {
-        diaryService.deleteDiary(diaryId);
+    public ResponseEntity<String> deleteDiary(@PathVariable Long diaryId, LoginMemberResponseDto member) {
+        Long memberId = member.id();
+        diaryService.deleteDiary(diaryId, memberId);
         return new ResponseEntity<>("일기장 삭제 완료", HttpStatus.OK);
     }
 }

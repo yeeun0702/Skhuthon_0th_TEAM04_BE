@@ -34,13 +34,14 @@ public class DiaryService {
         Diary diary = Diary.builder()
                 .title(diaryRequestDto.getTitle())
                 .content(diaryRequestDto.getContent())
+                .sing(diaryRequestDto.getSing())
                 .member(member)
                 .build();
         diaryRepository.save(diary);
         return diary.getDiaryId();
     }
 
-    // 일기장 조회하기
+        // 일기장 조회하기
     @Transactional
     public PagedResponse<DiaryResponseDto> readDiary(Pageable pageable) {
         Page<Diary> diaryPage = diaryRepository.findAll(pageable);
@@ -49,6 +50,7 @@ public class DiaryService {
                         .diaryId(diary.getDiaryId())
                         .title(diary.getTitle())
                         .content(diary.getContent())
+                        .sing(diary.getSing())
                         .memberName(diary.getMember().getMemberName())
                         .build())
                 .collect(Collectors.toList());
@@ -79,10 +81,16 @@ public class DiaryService {
         diaryRepository.save(diary);
     }
 
+    // 일기장 삭제하기
     @Transactional
-    public void deleteDiary(Long diaryId) {
+    public void deleteDiary(Long diaryId, Long memberId) {
         Diary diary = diaryRepository.findById(diaryId).orElseThrow(
                 () -> new IllegalArgumentException("해당 일기가 없습니다. id=" + diaryId));
+
+        if (!diary.getMember().getId().equals(memberId)) {
+            throw new IllegalArgumentException("삭제 권한이 없습니다.");
+        }
+
         diaryRepository.delete(diary);
     }
 }

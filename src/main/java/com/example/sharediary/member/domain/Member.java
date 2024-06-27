@@ -1,5 +1,6 @@
 package com.example.sharediary.member.domain;
 
+import com.example.sharediary.comment.domain.Comment;
 import com.example.sharediary.diary.domain.Diary;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -25,6 +26,9 @@ public class Member {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Diary> diaries;
+
+    @OneToMany(mappedBy = "member")
+    private List<Comment>  comments;
 
     @Builder
     public Member(String memberName, String password, String name) {
