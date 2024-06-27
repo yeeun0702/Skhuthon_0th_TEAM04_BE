@@ -2,6 +2,7 @@ package com.example.sharediary.diary.controller;
 
 import com.example.sharediary.diary.dto.DiaryRequestDto;
 import com.example.sharediary.diary.dto.DiaryResponseDto;
+import com.example.sharediary.diary.dto.PagedResponse;
 import com.example.sharediary.diary.service.DiaryService;
 import com.example.sharediary.member.domain.Member;
 import com.example.sharediary.member.dto.request.LoginMemberResponseDto;
@@ -9,6 +10,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -27,7 +31,7 @@ public class DiaryController {
     @Operation(summary = "일기장 작성", description = "클라이언트에게 내용과 제목을 입력받아 데이터베이스에 저장")
     @Parameter(name = "diaryRequestDto", description = "클라이언트에게 입력받는 부분")
     @Parameter(name = "member", description = "현재 로그인되어 있는 사용자를 받기 위한 Member 객체")
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<String> createDiary(@RequestBody DiaryRequestDto diaryRequestDto, LoginMemberResponseDto member) {
         // ArgumentResolver
         Long memberId = member.id();
@@ -37,10 +41,27 @@ public class DiaryController {
 
     // 일기장 조회하기
     @Operation(summary = "전체 일기장 불러오기", description = "일기장 전체를 불러오기. 근데 페이징 처리 안됨.")
-    @GetMapping("/read")
-    public ResponseEntity<List<DiaryResponseDto>> readDiary() {
-        List<DiaryResponseDto> diaries = diaryService.readDiary();
-        return new ResponseEntity<>(diaryService.readDiary(), HttpStatus.OK);
+    @GetMapping
+    public ResponseEntity<PagedResponse<DiaryResponseDto>> readDiary(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            @RequestParam(value = "sort", defaultValue = "diaryId, asc") String sort
+    ) {
+        Pageable pageable;
+        if (sort.isEmpty()) {
+            // PageRequest.of: 정렬 기준 - diaryId, 오름차순 정렬하는 Pageable 객체 생성
+            pageable = PageRequest.of(page, size, Sort.by("diaryId").ascending());
+        } else {
+            // sort 파라미터가 제공된 경우 이를 ,로 분리하여 정렬기준, 정렬 방향 추출
+            String[] sortParams = sort.split(",");
+            // Sort.Direction.fromString(sortParams[1]): 정렬 방향
+            // sortParams[0]: 정렬 기준
+            Sort sortOrder = Sort.by(Sort.Direction.fromString((sortParams[1]).trim()), sortParams[0].trim()    );
+            pageable = PageRequest.of(page, size, sortOrder);
+        }
+
+        PagedResponse<DiaryResponseDto> diaries = diaryService.readDiary(pageable);
+        return new ResponseEntity<>(diaries, HttpStatus.OK);
     }
 
     // 일기장 수정하기
