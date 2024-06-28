@@ -1,10 +1,15 @@
 package com.example.sharediary.diary.domain;
 
 import com.example.sharediary.diary.dto.DiaryRequestDto;
-import com.example.sharediary.friend.domain.Friend;
+import com.example.sharediary.friend.domain.Friend; 
+
 import com.example.sharediary.member.domain.Member;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -23,6 +28,7 @@ public class Diary {
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID", nullable = false)
     private Member member;
+
 
     // 제목
     @Column(nullable = false)
