@@ -19,7 +19,7 @@ import java.util.List;
 @Tag(name = "댓글 API", description = "Swagger 댓글 API")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/comment")
+@RequestMapping("/apis/v1/comment")
 public class CommentController {
     private final CommentService commentService;
 
