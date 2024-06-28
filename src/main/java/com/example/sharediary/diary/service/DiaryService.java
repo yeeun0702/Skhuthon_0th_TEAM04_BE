@@ -41,7 +41,7 @@ public class DiaryService {
         return diary.getDiaryId();
     }
 
-        // 일기장 조회하기
+    // 일기장 전체 조회하기
     @Transactional
     public PagedResponse<DiaryResponseDto> readDiary(Pageable pageable) {
         Page<Diary> diaryPage = diaryRepository.findAll(pageable);
@@ -65,6 +65,15 @@ public class DiaryService {
         response.setFirst(diaryPage.isFirst());
 
         return response;
+    }
+
+    // 일기장 diaryId로 조회(상세 페이지)
+    @Transactional
+    public DiaryResponseDto readDiaryById(Long diaryId) {
+        Diary diary = diaryRepository.findById(diaryId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 일기가 없습니다. id= " + diaryId));
+
+        return DiaryResponseDto.of(diary);
     }
 
     // 일기장 수정하기

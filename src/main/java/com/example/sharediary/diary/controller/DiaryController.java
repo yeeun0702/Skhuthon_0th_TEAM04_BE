@@ -39,7 +39,7 @@ public class DiaryController {
         return new ResponseEntity<>(createDiaryId + "번째 글 작성", HttpStatus.OK);
     }
 
-    // 일기장 조회하기
+    // 일기장 전체 조회하기
     @Operation(summary = "전체 일기장 불러오기", description = "일기장 전체를 불러오기. 근데 페이징 처리 안됨.")
     @GetMapping("/read")
     public ResponseEntity<PagedResponse<DiaryResponseDto>> readDiary(
@@ -62,6 +62,13 @@ public class DiaryController {
 
         PagedResponse<DiaryResponseDto> diaries = diaryService.readDiary(pageable);
         return new ResponseEntity<>(diaries, HttpStatus.OK);
+    }
+
+    // 일기장 diaryId로 조회(상세 페이지)
+    @GetMapping("/read/{diaryId}")
+    public ResponseEntity<DiaryResponseDto> readDiaryById(@PathVariable Long diaryId) {
+        DiaryResponseDto diaryResponseDto = diaryService.readDiaryById(diaryId);
+        return new ResponseEntity<>(diaryResponseDto, HttpStatus.OK);
     }
 
     @Operation(summary = "일기장 수정", description = "일기장 ID를 가지고 일기장을 수정하는 API")
