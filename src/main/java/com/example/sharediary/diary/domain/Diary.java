@@ -1,6 +1,7 @@
 package com.example.sharediary.diary.domain;
 
 import com.example.sharediary.diary.dto.DiaryRequestDto;
+import com.example.sharediary.friend.domain.Friend;
 import com.example.sharediary.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.*;

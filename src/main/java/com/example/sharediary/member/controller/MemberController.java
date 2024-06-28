@@ -19,7 +19,7 @@ import java.net.URI;
 
 @Tag(name = "사용자 API", description = "Swagger 사용자 API")
 @RestController
-@RequestMapping("/members")
+@RequestMapping("/apis/v1/members")
 public class MemberController {
     private final MemberService memberService;
     private final CookieService cookieService = new CookieService();
