@@ -1,8 +1,8 @@
 package com.example.sharediary.diary.domain;
 
 import com.example.sharediary.diary.dto.DiaryRequestDto;
-import com.example.sharediary.friend.domain.Friend;
-import com.example.sharediary.heart.domain.Heart;
+import com.example.sharediary.friend.domain.Friend; 
+
 import com.example.sharediary.member.domain.Member;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -29,11 +29,6 @@ public class Diary {
     @JoinColumn(name = "MEMBER_ID", nullable = false)
     private Member member;
 
-
-    @OneToMany(mappedBy = "diary", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.REMOVE)
-    @Column(name = "DIARY_HEART")
-    @JsonIgnore
-    private List<Heart> heart = new ArrayList<>();
 
     // 제목
     @Column(nullable = false)
