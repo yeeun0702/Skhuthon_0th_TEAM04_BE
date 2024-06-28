@@ -23,7 +23,7 @@ import java.util.List;
 @Controller
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/diary")
+@RequestMapping("/apis/v1/diary")
 public class DiaryController {
     private final DiaryService diaryService;
 
@@ -40,7 +40,7 @@ public class DiaryController {
     }
 
     // 일기장 전체 조회하기
-    @Operation(summary = "전체 일기장 불러오기", description = "일기장 전체를 불러오기. 근데 페이징 처리 안됨.")
+    @Operation(summary = "전체 일기장 불러오기", description = "일기장 전체를 불러오기")
     @GetMapping("/read")
     public ResponseEntity<PagedResponse<DiaryResponseDto>> readDiary(
             @RequestParam(value = "page", defaultValue = "0") int page,
@@ -65,6 +65,7 @@ public class DiaryController {
     }
 
     // 일기장 diaryId로 조회(상세 페이지)
+    @Operation(summary = "상세페이지", description = "일기장 diaryId로 조회")
     @GetMapping("/read/{diaryId}")
     public ResponseEntity<DiaryResponseDto> readDiaryById(@PathVariable Long diaryId) {
         DiaryResponseDto diaryResponseDto = diaryService.readDiaryById(diaryId);

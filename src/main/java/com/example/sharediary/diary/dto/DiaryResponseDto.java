@@ -13,6 +13,7 @@ public class DiaryResponseDto {
     private String title;
     private String content;
     private String sing;
+    private Long heartId;
     private String memberName;
 
 // Diary 객체를 DiaryResponseDto 객체로 변환

@@ -14,7 +14,7 @@ public class Heart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "heartId")
-    private Long id;
+    private Long heartId;
 
     // Member와 관계 설정
     @ManyToOne
