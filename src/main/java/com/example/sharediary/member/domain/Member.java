@@ -18,11 +18,10 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MEMBER_ID")
-    private Long id;
+    private Long memberId;
 
-    private String memberName;
     private String password;
-    private String name;
+    private String memberName;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Diary> diaries;
@@ -31,9 +30,8 @@ public class Member {
     private List<Comment>  comments;
 
     @Builder
-    public Member(String memberName, String password, String name) {
-        this.memberName = memberName;
+    public Member(String memberName, String password) {
         this.password = password;
-        this.name = name;
+        this.memberName = memberName;
     }
 }
