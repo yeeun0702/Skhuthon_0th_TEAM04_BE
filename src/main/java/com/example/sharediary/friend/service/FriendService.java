@@ -59,8 +59,8 @@ public class FriendService {
         List<Friend> friends = friendRepository.findBySenderAndStatusOrReceiverAndStatus(member, FriendStatus.ACCEPTED, member, FriendStatus.ACCEPTED);
         return friends.stream()
                 .map(friend -> new FriendResponseDto(
-                        friend.getSender().getId(),
-                        friend.getReceiver().getId(),
+                        friend.getSender().getMemberId(),
+                        friend.getReceiver().getMemberId(),
                         friend.getStatus().name(),
                         friend.getTitle()))
                 .collect(Collectors.toList());
@@ -74,8 +74,8 @@ public class FriendService {
         List<Friend> friends = friendRepository.findByReceiverAndStatus(receiver, FriendStatus.PENDING);
         return friends.stream()
                 .map(friend -> new FriendResponseDto(
-                        friend.getSender().getId(),
-                        friend.getReceiver().getId(),
+                        friend.getSender().getMemberId(),
+                        friend.getReceiver().getMemberId(),
                         friend.getStatus().name(),
                         friend.getTitle()))
                 .collect(Collectors.toList());
