@@ -22,7 +22,7 @@ import java.net.URI;
 @RequestMapping("/members")
 public class MemberController {
     private final MemberService memberService;
-    private final CookieService cookieService = new  CookieService();
+    private final CookieService cookieService = new CookieService();
 
     public MemberController(MemberService memberService) {
         this.memberService = memberService;
@@ -32,7 +32,6 @@ public class MemberController {
     @PostMapping
     public ResponseEntity<MemberResponseDto> save(@RequestBody final MemberRequestDto request) {
         MemberResponseDto response = memberService.save(request);
-
         return ResponseEntity.created(URI.create("/members/" + response.getId()))
                 .body(response);
     }

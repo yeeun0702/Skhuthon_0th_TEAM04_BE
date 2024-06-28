@@ -24,11 +24,11 @@ public class MemberService {
 
     // 회원가입
     public MemberResponseDto save(final MemberRequestDto request) {
-        final String memberName = request.getmemberName();
+        final String memberName = request.getMemberName();
         final String password = request.getPassword();
-        final String name = request.getName();
 
-        final Member member = new Member(memberName, password, name);
+
+        final Member member = new Member(memberName, password);
 
         return new MemberResponseDto(memberRepository.save(member));
     }

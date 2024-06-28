@@ -1,28 +1,26 @@
 package com.example.sharediary.member.dto.request;
 
 public class MemberRequestDto {
-    private String memberName;
+    private Long memberId;
     private String password;
-    private String name;
+    private String memberName;
 
     public MemberRequestDto(){}
 
-    public MemberRequestDto(final String memberName, final String password, final String name) {
-        this.memberName = memberName;
+    public MemberRequestDto(final Long memberId, final String password, final String memberName) {
+        this.memberId = memberId;
         this.password = password;
-        this.name = name;
+        this.memberName = memberName;
     }
 
-    public String getmemberName() {
-        return memberName;
-    }
+    public Long getMemberId(){return memberId;}
 
     public String getPassword() {
         return password;
     }
 
-    public String getName() {
-        return name;
+    public String getMemberName() {
+        return memberName;
     }
 
 }
