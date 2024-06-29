@@ -28,8 +28,8 @@ public class CommentService {
 
     // 댓글 생성
     @Transactional
-    public Long createComment(CommentRequestDto commentRequestDto, Long diaryId, Long senderId) {
-        Member member = memberRepository.findById(senderId).orElseThrow(() ->
+    public Long createComment(CommentRequestDto commentRequestDto, Long diaryId, Long friendId) {
+        Member member = memberRepository.findById(friendId).orElseThrow(() ->
                 new IllegalArgumentException("존재하지 않는 사용자입니다."));
 
         Diary diary = diaryRepository.findById(diaryId).orElseThrow(() ->
@@ -37,8 +37,7 @@ public class CommentService {
 
         Comment comment = Comment.builder()
                 .content(commentRequestDto.getContent())
-
-                .sender(member)
+                .friend(commentRequestDto.getDiary().getFriend())
                 .diary(diary)
                 .build();
 
@@ -58,7 +57,7 @@ public class CommentService {
                 .map(comment -> CommentResponseDto.builder()
                         .commentId(comment.getCommentId())
                         .content(comment.getContent())
-                        .senderName(comment.getSender().getSenderName())
+                        .friendId(comment.getFriend().getFriendId())
                         .build())
                 .collect(Collectors.toList());
 
