@@ -21,8 +21,8 @@ public class FriendController {
 
     // 친구 요청
     @PostMapping("/request")
-    public ResponseEntity<String> sendFriendRequest(@RequestParam Long senderId, @RequestParam Long receiverId, @RequestParam String title) {
-        friendService.senderFriendRequest(senderId, receiverId, title);
+    public ResponseEntity<String> sendFriendRequest(@RequestParam String senderName, @RequestParam String receiverName, @RequestParam String title) {
+        friendService.senderFriendRequest(senderName, receiverName, title);
         return ResponseEntity.ok("친구 요청 발송");
     }
 
@@ -35,15 +35,15 @@ public class FriendController {
 
     // 친구 목록 조회
     @GetMapping("/accept")
-    public ResponseEntity<List<FriendResponseDto>> getAcceptFriend(@RequestParam Long memberId) {
-        List<FriendResponseDto>acceptedFriends = friendService.getAcceptFriends(memberId);
+    public ResponseEntity<List<FriendResponseDto>> getAcceptFriend(@RequestParam String memberName) {
+        List<FriendResponseDto>acceptedFriends = friendService.getAcceptFriends(memberName);
         return ResponseEntity.ok(acceptedFriends);
     }
 
     // 친구 요청 대기 목록 조회
     @GetMapping("/request")
-    public ResponseEntity<List<FriendResponseDto>> getPendingRequests(@RequestParam Long receiverId) {
-        List<FriendResponseDto> pendingRequests = friendService.getPendingRequests(receiverId);
+    public ResponseEntity<List<FriendResponseDto>> getPendingRequests(@RequestParam String receiverName) {
+        List<FriendResponseDto> pendingRequests = friendService.getPendingRequests(receiverName);
         return ResponseEntity.ok(pendingRequests);
     }
 }
