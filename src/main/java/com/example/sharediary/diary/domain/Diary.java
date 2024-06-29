@@ -29,6 +29,8 @@ public class Diary {
     @JoinColumn(name = "MEMBER_ID", nullable = false)
     private Member member;
 
+    @Column(name = "HEART_COUNT")
+    private Long heartCount =0L;
 
     // 제목
     @Column(nullable = false)

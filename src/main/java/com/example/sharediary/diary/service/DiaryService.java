@@ -5,6 +5,7 @@ import com.example.sharediary.diary.dto.DiaryRequestDto;
 import com.example.sharediary.diary.dto.DiaryResponseDto;
 import com.example.sharediary.diary.dto.PagedResponse;
 import com.example.sharediary.diary.repository.DiaryRepository;
+import com.example.sharediary.heart.service.HeartService;
 import com.example.sharediary.member.domain.Member;
 import com.example.sharediary.member.dto.request.LoginMemberResponseDto;
 import com.example.sharediary.member.repository.MemberRepository;
@@ -24,6 +25,7 @@ public class DiaryService {
 
     private final DiaryRepository diaryRepository;
     private final MemberRepository memberRepository;
+    private  final HeartService heartService;
 
     // 일기장 글 생성하기
     @Transactional
@@ -35,6 +37,7 @@ public class DiaryService {
                 .title(diaryRequestDto.getTitle())
                 .content(diaryRequestDto.getContent())
                 .sing(diaryRequestDto.getSing())
+                .heartCount(diaryRequestDto.getHeartCount())
                 .member(member)
                 .build();
         diaryRepository.save(diary);
@@ -51,6 +54,7 @@ public class DiaryService {
                         .title(diary.getTitle())
                         .content(diary.getContent())
                         .sing(diary.getSing())
+                        .heartCount(diary.getHeartCount())
                         .memberName(diary.getMember().getMemberName())
                         .build())
                 .collect(Collectors.toList());

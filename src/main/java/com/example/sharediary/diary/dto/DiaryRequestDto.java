@@ -16,5 +16,6 @@ public class DiaryRequestDto {
     private String sing;
     private Member member;
     private Heart heart;
+    private Long heartCount;
 
 }
