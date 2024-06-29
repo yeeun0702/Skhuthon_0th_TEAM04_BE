@@ -32,8 +32,7 @@ public class MemberController {
     @PostMapping
     public ResponseEntity<MemberResponseDto> save(@RequestBody final MemberRequestDto request) {
         MemberResponseDto response = memberService.save(request);
-        return ResponseEntity.created(URI.create("/members/" + response.getId()))
-                .body(response);
+        return ResponseEntity.created(URI.create("/members")).body(response);
     }
 
     // 로그인
