@@ -19,15 +19,15 @@ public class HeartController {
 
     @PostMapping
     public ResponseEntity<String> insertHeart(LoginMemberResponseDto loginMemberResponseDto, @RequestBody HeartRequestDto heartRequestDto) {
-        Long memberId = loginMemberResponseDto.id();
-        heartService.insertHeart(memberId, heartRequestDto.getDiaryId());
+        Long senderId = loginMemberResponseDto.id();
+        heartService.insertHeart(senderId, heartRequestDto.getDiaryId());
         return new ResponseEntity<>("좋아요 등록", HttpStatus.CREATED);
     }
 
     @DeleteMapping
     public ResponseEntity<String> deleteHeart(LoginMemberResponseDto loginMemberResponseDto, @RequestBody HeartRequestDto heartRequestDto) {
-        Long memberId = loginMemberResponseDto.id();
-        heartService.deleteHeart(memberId, heartRequestDto.getDiaryId());
+        Long senderId = loginMemberResponseDto.id();
+        heartService.deleteHeart(senderId, heartRequestDto.getDiaryId());
         return new ResponseEntity<>("좋아요 삭제", HttpStatus.OK);
     }
 }

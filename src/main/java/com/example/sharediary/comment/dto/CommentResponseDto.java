@@ -12,14 +12,14 @@ import lombok.*;
 public class CommentResponseDto {
     private Long commentId;
     private String content;
-    private String memberName;
+    private String senderName;
 
 
     public static CommentResponseDto of(Comment comment){
         return CommentResponseDto.builder()
                 .commentId(comment.getCommentId())
                 .content(comment.getContent())
-                .memberName(comment.getMember().getMemberName())
+                .senderName(comment.getSender().getSenderName())
                 .build();
     }
 }

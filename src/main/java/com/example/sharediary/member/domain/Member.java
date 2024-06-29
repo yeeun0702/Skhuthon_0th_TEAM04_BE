@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,17 +22,20 @@ public class Member {
     private Long memberId;
 
     private String password;
-    private String memberName;
+    private String senderName;
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Diary> diaries;
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Diary> senderDiaries = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member")
-    private List<Comment>  comments;
+    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Diary> receiverDiaries = new ArrayList<>();
+
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
 
     @Builder
-    public Member(String memberName, String password) {
+    public Member(String senderName, String password) {
         this.password = password;
-        this.memberName = memberName;
+        this.senderName = senderName;
     }
 }

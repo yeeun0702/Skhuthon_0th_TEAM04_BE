@@ -7,20 +7,20 @@ import lombok.Getter;
 public class TokenRequestDto {
 
     @NotBlank
-    private String memberName;
+    private String senderName;
     @NotBlank
     private String password;
 
     public TokenRequestDto() {
     }
 
-    public TokenRequestDto( String memberName, final String password) {
-        this.memberName = memberName;
+    public TokenRequestDto( String senderName, final String password) {
+        this.senderName = senderName;
         this.password = password;
     }
 
 
-    public String getMemberName(){return memberName;}
+    public String getSenderName(){return senderName;}
 
     public String getPassword() {
         return password;

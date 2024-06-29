@@ -18,7 +18,7 @@ public class Heart {
 
     // Member와 관계 설정
     @ManyToOne
-    @JoinColumn(name = "memberId", nullable = false)
+    @JoinColumn(name = "senderId", nullable = false)
     private Member member;
 
     // Diary와 관계 설정
