@@ -7,6 +7,7 @@ import lombok.Getter;
 public class MemberResponseDto {
     private Long senderId;
     private String senderName;
+    private TokenResponseDto tokenResponseDto;
 
     public MemberResponseDto(Member saveMember) {
         this(saveMember.getMemberId(), saveMember.getSenderName());
@@ -17,6 +18,12 @@ public class MemberResponseDto {
         this.senderName = senderName;
     }
 
+    public MemberResponseDto(Long senderId, String senderName, TokenResponseDto tokenResponseDto) {
+        this.senderId = senderId;
+        this.senderName = senderName;
+        this.tokenResponseDto = tokenResponseDto;
+    }
+
     public Long getSenderId() {
         return senderId;
     }
@@ -25,4 +32,7 @@ public class MemberResponseDto {
         return senderName;
     }
 
+    public TokenResponseDto getTokenResponseDto() {
+        return tokenResponseDto;
+    }
 }

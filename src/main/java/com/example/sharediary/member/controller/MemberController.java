@@ -37,11 +37,11 @@ public class MemberController {
 
     // 로그인
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@RequestBody final TokenRequestDto request, final HttpServletResponse response) {
-        final TokenResponseDto tokenResponse = memberService.createToken(request);
-        final Cookie cookie = cookieService.createCookie(tokenResponse);
+    public ResponseEntity<MemberResponseDto> login(@RequestBody final TokenRequestDto request, final HttpServletResponse response) {
+        final MemberResponseDto loginResponse = memberService.createToken(request);
+        final Cookie cookie = cookieService.createCookie(loginResponse.getTokenResponseDto());
         response.addCookie(cookie);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(loginResponse);
     }
 }

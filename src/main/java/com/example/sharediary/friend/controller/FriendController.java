@@ -36,8 +36,8 @@ public class FriendController {
 
     // 친구 목록 조회
     @GetMapping("/list")
-    public ResponseEntity<List<FriendResponseDto>> getAcceptFriend(@RequestParam String memberName) {
-        List<FriendResponseDto>acceptedFriends = friendService.getAcceptFriends(memberName);
+    public ResponseEntity<List<FriendResponseDto>> getAcceptFriend(@RequestParam String memberId) {
+        List<FriendResponseDto>acceptedFriends = friendService.getAcceptFriends(memberId);
         return ResponseEntity.ok(acceptedFriends);
     }
 
