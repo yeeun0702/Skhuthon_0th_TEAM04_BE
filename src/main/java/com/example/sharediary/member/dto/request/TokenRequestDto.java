@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class TokenRequestDto {
-    private Long memberId;
+
     @NotBlank
     private String memberName;
     @NotBlank
@@ -14,13 +14,11 @@ public class TokenRequestDto {
     public TokenRequestDto() {
     }
 
-    public TokenRequestDto(final Long memberId, String memberName, final String password) {
-        this.memberId = memberId;
+    public TokenRequestDto( String memberName, final String password) {
         this.memberName = memberName;
         this.password = password;
     }
 
-    public Long getMemberId(){return memberId;}
 
     public String getMemberName(){return memberName;}
 
