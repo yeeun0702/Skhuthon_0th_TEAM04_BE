@@ -33,14 +33,15 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
                 .addPathPatterns("/admin/**")
                 .excludePathPatterns("http://localhost:5173");
 
+
+
     }
     @Override
     public void addCorsMappings(CorsRegistry registry){
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:5173")
-                .allowedMethods("GET", "POST", "PUT", "DELETE")
-                .allowedHeaders("Content-Type")
-                .exposedHeaders("Custom-Header")
+                .allowedOrigins("http://localhost:5173/")
+                .allowedMethods("*")
+                .allowedHeaders("*")
                 .allowCredentials(true)
                 .maxAge(3600);
 

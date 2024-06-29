@@ -8,11 +8,13 @@ import com.example.sharediary.member.dto.response.MemberResponseDto;
 import com.example.sharediary.member.dto.response.TokenResponseDto;
 import com.example.sharediary.member.infrastructure.TokenProvider;
 import com.example.sharediary.member.repository.MemberRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpClientErrorException;
 
 @Service
+@Slf4j
 public class MemberService {
     private final MemberRepository memberRepository;
     private final TokenProvider tokenProvider;

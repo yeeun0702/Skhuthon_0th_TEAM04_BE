@@ -11,6 +11,6 @@ import lombok.*;
 public class CommentRequestDto {
     private Long commentId;
     private String content;
-    private Long friendId;
+    private Long memberId;
     private Diary diary;
 }

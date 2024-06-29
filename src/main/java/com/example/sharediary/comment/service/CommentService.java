@@ -37,7 +37,7 @@ public class CommentService {
 
         Comment comment = Comment.builder()
                 .content(commentRequestDto.getContent())
-                .friend(commentRequestDto.getDiary().getFriend())
+                .member(member)
                 .diary(diary)
                 .build();
 
@@ -57,7 +57,7 @@ public class CommentService {
                 .map(comment -> CommentResponseDto.builder()
                         .commentId(comment.getCommentId())
                         .content(comment.getContent())
-                        .friendId(comment.getFriend().getFriendId())
+                        .memberId(comment.getMember().getMemberId())
                         .build())
                 .collect(Collectors.toList());
 

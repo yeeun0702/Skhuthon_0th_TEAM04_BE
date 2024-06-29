@@ -23,7 +23,7 @@ public class Diary extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name= "DIARY_ID")
+    @Column(name= "diary_id")
     private Long diaryId;
 
 //    @ManyToOne(fetch = FetchType.LAZY)
@@ -37,8 +37,9 @@ public class Diary extends BaseTimeEntity {
     @Column(name = "HEART_COUNT")
     private Long heartCount =0L;
 
-    @OneToOne
-    @JoinColumn(nullable = false)
+
+    @ManyToOne
+    @JoinColumn(name = "friend_id", nullable = false)
     private Friend friend;
 
     // 제목
