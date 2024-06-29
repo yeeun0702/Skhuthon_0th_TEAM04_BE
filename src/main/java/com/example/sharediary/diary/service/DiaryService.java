@@ -36,8 +36,8 @@ public class DiaryService {
 
     // 일기장 글 생성하기
     @Transactional
-    public Long createDiary(DiaryRequestDto diaryRequestDto, Long senderId) {
-        Member member = memberRepository.findById(senderId).orElseThrow(() ->
+    public Long createDiary(DiaryRequestDto diaryRequestDto, Long memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow(() ->
                 new IllegalArgumentException("존재하지 않는 사용자입니다."));
 
         Friend friend = friendRepository.findById(diaryRequestDto.getFriendId()).orElseThrow();

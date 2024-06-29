@@ -12,6 +12,9 @@ public class CookieService {
         final Cookie cookie = new Cookie(COOKIE_NAME, tokenResponse.accessToken());
         cookie.setPath("/");
         cookie.setHttpOnly(true);
+        cookie.setAttribute("SameSite", "None");
+        cookie.setSecure(true);
+
         return cookie;
     }
 

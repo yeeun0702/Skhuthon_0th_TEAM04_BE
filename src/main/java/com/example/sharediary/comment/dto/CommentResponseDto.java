@@ -12,7 +12,7 @@ import lombok.*;
 public class CommentResponseDto {
     private Long commentId;
     private String content;
-    private Long friendId;
+    private Long memberId;
     private String friendName;
 
 
@@ -20,7 +20,7 @@ public class CommentResponseDto {
         return CommentResponseDto.builder()
                 .commentId(comment.getCommentId())
                 .content(comment.getContent())
-              //  .friendName(comment.getFriend().getFriendId())
+                .memberId(comment.getMember().getMemberId())
                 .build();
     }
 }

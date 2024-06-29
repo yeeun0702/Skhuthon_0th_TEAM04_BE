@@ -8,10 +8,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class FriendResponseDto {
-    private Long senderId;
+    private Long memberId;
     private Long receiverId;
-    private String senderName;
-    private String FriendName;
     private String status;
     private String title;
     private Long friendId;

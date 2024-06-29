@@ -5,6 +5,9 @@ import com.example.sharediary.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -18,7 +21,7 @@ public class Friend {
 
     // Member와 관계 설정 - 요청 하는 사용자
     @ManyToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn( nullable = false)
     private Member sender;
 
     // Member와 관계 설정 - 요청 받는 사용자
@@ -26,9 +29,8 @@ public class Friend {
     @JoinColumn(nullable = false)
     private Member receiver;
 
-    @OneToOne
-    @JoinColumn(nullable = false)
-    private Diary diary;
+    @OneToMany(mappedBy = "friend", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Diary> diaries = new ArrayList<>();
 
     // 교환일기 제목
     private String title;
