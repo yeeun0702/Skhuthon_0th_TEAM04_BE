@@ -55,8 +55,8 @@ public class FriendService {
     }
 
     // 친구 목록 조회
-    public List<FriendResponseDto> getAcceptFriends(String senderName) {
-        Member member = memberRepository.findBySenderName(senderName)
+    public List<FriendResponseDto> getAcceptFriends(Long memberId) {
+        Member member = memberRepository.findByMemberId(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("Sender 찾을 수 없음"));
         List<Friend> friends = friendRepository.findBySenderAndStatusOrReceiverAndStatus(member, FriendStatus.ACCEPTED, member, FriendStatus.ACCEPTED);
         return friends.stream()
@@ -73,8 +73,8 @@ public class FriendService {
     }
 
     // 친구 요청 대기 목록 조회
-    public List<FriendResponseDto> getPendingRequests(String receiverName) {
-        Member receiver = memberRepository.findBySenderName(receiverName)
+    public List<FriendResponseDto> getPendingRequests(Long memberId) {
+        Member receiver = memberRepository.findByMemberId(memberId)
                 .orElseThrow(() -> new RuntimeException("Receiver 찾을 수 없음"));
         List<Friend> friends = friendRepository.findByReceiverAndStatus(receiver, FriendStatus.PENDING);
         return friends.stream()
