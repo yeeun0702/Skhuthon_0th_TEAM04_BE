@@ -26,16 +26,20 @@ public class Diary extends BaseTimeEntity {
     @Column(name= "DIARY_ID")
     private Long diaryId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "SENDER_ID", nullable = false)
-    private Member sender;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "RECEIVER_ID", nullable = false)
-    private Member receiver;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "SENDER_ID", nullable = false)
+//    private Member sender;
+//
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "RECEIVER_ID", nullable = false)
+//    private Member receiver;
 
     @Column(name = "HEART_COUNT")
     private Long heartCount =0L;
+
+    @OneToOne
+    @JoinColumn(nullable = false)
+    private Friend friend;
 
     // 제목
     @Column(nullable = false)

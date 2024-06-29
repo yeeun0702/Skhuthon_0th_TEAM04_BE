@@ -1,6 +1,7 @@
 package com.example.sharediary.diary.service;
 
 import com.example.sharediary.diary.domain.Diary;
+import com.example.sharediary.diary.dto.DiaryDateRequestDto;
 import com.example.sharediary.diary.dto.DiaryRequestDto;
 import com.example.sharediary.diary.dto.DiaryResponseDto;
 import com.example.sharediary.diary.dto.PagedResponse;
@@ -38,24 +39,17 @@ public class DiaryService {
     public Long createDiary(DiaryRequestDto diaryRequestDto, Long senderId) {
         Member member = memberRepository.findById(senderId).orElseThrow(() ->
                 new IllegalArgumentException("존재하지 않는 사용자입니다."));
-        Member receiverMember = memberRepository.findById(diaryRequestDto.getReceiverId()).orElseThrow(() ->
-                new IllegalArgumentException("존재하지 않는 수신자입니다."));
 
-        Friend friend = friendRepository.findBySenderAndReceiver(member, receiverMember);
+        Friend friend = friendRepository.findById(diaryRequestDto.getFriendId()).orElseThrow();
 
         System.out.println(friend.getFriendId());
-
-        if (!friendRepository.existsBySenderAndReceiver(member, receiverMember)) {
-            throw new IllegalArgumentException("친구 관계가 존재하지 않습니다.");
-        }
 
         Diary diary = Diary.builder()
                 .title(diaryRequestDto.getTitle())
                 .content(diaryRequestDto.getContent())
                 .sing(diaryRequestDto.getSing())
                 .heartCount(diaryRequestDto.getHeartCount())
-                .sender(member)
-                .receiver(receiverMember)
+                .friend(friend)
                 .build();
 
         diaryRepository.save(diary);
@@ -73,8 +67,6 @@ public class DiaryService {
                         .content(diary.getContent())
                         .sing(diary.getSing())
                         .heartCount(diary.getHeartCount())
-                        .senderName(diary.getSender().getSenderName())
-                        .receiverName(diary.getReceiver().getSenderName())
                         .build())
                 .collect(Collectors.toList());
 
@@ -93,7 +85,7 @@ public class DiaryService {
     // friendId 통해 조회
     @Transactional
     public PagedResponse<DiaryResponseDto> readDiaryByFriendId(Long friendId, Pageable pageable) {
-        Page<Diary> diaryPage = diaryRepository.findBySenderMemberId(friendId, pageable);
+        Page<Diary> diaryPage = diaryRepository.findByFriendFriendId(friendId, pageable);
         List<DiaryResponseDto> diaryDtoRead = diaryPage.getContent().stream()
                 .map(diary -> DiaryResponseDto.builder()
                         .diaryId(diary.getDiaryId())
@@ -101,9 +93,6 @@ public class DiaryService {
                         .content(diary.getContent())
                         .sing(diary.getSing())
                         .heartCount(diary.getHeartCount())
-                        .senderName(diary.getSender().getSenderName())
-                        .receiverName(diary.getReceiver().getSenderName())
-
                         .build())
                 .collect(Collectors.toList());
 
@@ -128,13 +117,36 @@ public class DiaryService {
         return DiaryResponseDto.of(diary);
     }
 
+
+
+    // friendId, 연월 통해 조회
+    @Transactional
+    public List<DiaryResponseDto> readDiaryByMonth(Long friendId, DiaryDateRequestDto diaryDate) {
+        List<Diary> diaries = diaryRepository.findByFriendAndCreatedMonth(friendId, diaryDate.getYear(), diaryDate.getMonth());
+
+        return diaries.stream()
+                .map(DiaryResponseDto::of)
+                .toList(); // 다이어리 목록 설정
+    }
+
+    // 날짜, friendId 통해 조회(달력 클릭했을 때 나오는 상세페이지)
+    @Transactional
+    public List<DiaryResponseDto> readDiaryByDate(Long friendId, DiaryDateRequestDto diaryDate) {
+        List<Diary> diaries = diaryRepository.findByFriendAndCreateDate(friendId, diaryDate.getYear(), diaryDate.getMonth(), diaryDate.getDate());
+
+        return diaries.stream()
+                .map(DiaryResponseDto::of)
+                .toList();
+
+    }
+
     // 일기장 수정하기
     @Transactional
     public void updateDiary(Long diaryId, DiaryRequestDto diaryRequestDto, Long senderId) {
         Diary diary = diaryRepository.findById(diaryId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 일기가 없습니다. id=" + diaryId));
 
-        if (!diary.getSender().getMemberId().equals(senderId)) {
+        if (!diary.getFriend().getFriendId().equals(senderId)) {
             throw new IllegalArgumentException("수정 권한이 없습니다.");
         }
 
@@ -148,7 +160,7 @@ public class DiaryService {
         Diary diary = diaryRepository.findById(diaryId).orElseThrow(
                 () -> new IllegalArgumentException("해당 일기가 없습니다. id=" + diaryId));
 
-        if (!diary.getSender().getMemberId().equals(senderId)) {
+        if (!diary.getFriend().getFriendId().equals(senderId)) {
             throw new IllegalArgumentException("삭제 권한이 없습니다.");
         }
 

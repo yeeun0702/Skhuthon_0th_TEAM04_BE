@@ -1,5 +1,6 @@
 package com.example.sharediary.diary.controller;
 
+import com.example.sharediary.diary.dto.DiaryDateRequestDto;
 import com.example.sharediary.diary.dto.DiaryRequestDto;
 import com.example.sharediary.diary.dto.DiaryResponseDto;
 import com.example.sharediary.diary.dto.PagedResponse;
@@ -90,8 +91,18 @@ public class DiaryController {
     }
 
     // friendId, 연월 통해 조회
+    @GetMapping("/read/month/{friendId}")
+    public ResponseEntity<List<DiaryResponseDto>> readDiaryByMonth(@PathVariable Long friendId, @RequestBody DiaryDateRequestDto diaryDate) {
+        List<DiaryResponseDto> diaryResponseDto = diaryService.readDiaryByMonth(friendId, diaryDate);
+        return new ResponseEntity<>(diaryResponseDto, HttpStatus.OK);
+    }
 
-    // 날짜, friendId 통해 조회
+    // 날짜, friendId 통해 조회(달력 클릭했을 때 나오는 상세페이지)
+    @GetMapping("/read/date/{friendId}")
+    public ResponseEntity<List<DiaryResponseDto>> readDiaryByDate(@PathVariable Long friendId, @RequestBody DiaryDateRequestDto diaryDate) {
+        List<DiaryResponseDto> diaryResponseDtos = diaryService.readDiaryByDate(friendId, diaryDate);
+        return new ResponseEntity<>(diaryResponseDtos, HttpStatus.OK);
+    }
 
     // 일기장 diaryId로 조회(상세 페이지)
     @Operation(summary = "상세페이지", description = "일기장 diaryId로 조회")

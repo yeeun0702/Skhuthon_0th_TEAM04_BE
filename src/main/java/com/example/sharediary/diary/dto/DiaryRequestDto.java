@@ -12,11 +12,10 @@ import lombok.*;
 public class DiaryRequestDto {
 
     private Long diaryId;
-    private Long senderId;
+    private Long friendId;
     private String content;
     private String title;
     private String sing;
-    private Long receiverId;
     private Heart heart;
     private Long heartCount;
     private String senderName;
