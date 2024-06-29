@@ -14,7 +14,7 @@ public class Friend {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "friendId")
-    private Long id;
+    private Long friendId;
 
     // Member와 관계 설정 - 요청 하는 사용자
     @ManyToOne

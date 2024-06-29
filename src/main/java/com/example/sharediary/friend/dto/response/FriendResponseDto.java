@@ -14,5 +14,6 @@ public class FriendResponseDto {
     private String receiverName;
     private String status;
     private String title;
+    private Long friendId;
 
 }

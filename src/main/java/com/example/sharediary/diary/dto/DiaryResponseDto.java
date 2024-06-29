@@ -13,7 +13,7 @@ public class DiaryResponseDto {
     private String title;
     private String content;
     private String sing;
-    private Long heartId;
+    private Long heartCount;
     private String memberName;
 
 // Diary 객체를 DiaryResponseDto 객체로 변환
@@ -22,6 +22,7 @@ public class DiaryResponseDto {
                 .diaryId(diary.getDiaryId())
                 .title(diary.getTitle())
                 .content(diary.getContent())
+                .heartCount(diary.getHeartCount())
                 .sing(diary.getSing())
                 .memberName(diary.getMember().getMemberName())
                 .build();

@@ -64,7 +64,8 @@ public class FriendService {
                         friend.getStatus().name(),
                         friend.getSender().getMemberName(),
                         friend.getReceiver().getMemberName(),
-                        friend.getTitle()))
+                        friend.getTitle(),
+                        friend.getFriendId()))
                 .collect(Collectors.toList());
 
     }
@@ -81,7 +82,8 @@ public class FriendService {
                         friend.getStatus().name(),
                         friend.getSender().getMemberName(),
                         friend.getReceiver().getMemberName(),
-                        friend.getTitle()))
+                        friend.getTitle(),
+                        friend.getFriendId()))
                 .collect(Collectors.toList());
     }
 
