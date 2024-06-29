@@ -64,6 +64,10 @@ public class DiaryController {
         return new ResponseEntity<>(diaries, HttpStatus.OK);
     }
 
+    // friendId, 연월 통해 조회
+
+    // 날짜, friendId 통해 조회
+
     // 일기장 diaryId로 조회(상세 페이지)
     @Operation(summary = "상세페이지", description = "일기장 diaryId로 조회")
     @GetMapping("/read/{diaryId}")
