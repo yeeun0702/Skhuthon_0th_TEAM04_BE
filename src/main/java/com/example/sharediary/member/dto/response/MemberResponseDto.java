@@ -5,24 +5,24 @@ import lombok.Getter;
 
 @Getter
 public class MemberResponseDto {
-    private Long id;
-    private String memberName;
+    private Long senderId;
+    private String senderName;
 
     public MemberResponseDto(Member saveMember) {
-        this(saveMember.getMemberId(), saveMember.getMemberName());
+        this(saveMember.getMemberId(), saveMember.getSenderName());
     }
 
-    public MemberResponseDto(Long id, String memberName) {
-        this.id = id;
-        this.memberName = memberName;
+    public MemberResponseDto(Long senderId, String senderName) {
+        this.senderId = senderId;
+        this.senderName = senderName;
     }
 
-    public Long getId() {
-        return id;
+    public Long getSenderId() {
+        return senderId;
     }
 
-    public String getMemberName() {
-        return memberName;
+    public String getSenderName() {
+        return senderName;
     }
 
 }

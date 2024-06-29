@@ -13,17 +13,16 @@ public class Friend {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "friendId")
     private Long friendId;
 
     // Member와 관계 설정 - 요청 하는 사용자
     @ManyToOne
-    @JoinColumn(name = "senderId", nullable = false)
+    @JoinColumn(nullable = false)
     private Member sender;
 
     // Member와 관계 설정 - 요청 받는 사용자
     @ManyToOne
-    @JoinColumn(name = "receiverId", nullable = false)
+    @JoinColumn(nullable = false)
     private Member receiver;
 
     // 교환일기 제목
@@ -31,5 +30,4 @@ public class Friend {
 
     @Enumerated(EnumType.STRING)
     private FriendStatus status;
-
 }

@@ -2,6 +2,7 @@ package com.example.sharediary.diary.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 

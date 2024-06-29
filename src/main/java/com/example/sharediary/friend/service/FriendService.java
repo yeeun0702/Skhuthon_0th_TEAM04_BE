@@ -6,10 +6,10 @@ import com.example.sharediary.friend.dto.reqeust.FriendRequestDto;
 import com.example.sharediary.friend.dto.response.FriendResponseDto;
 import com.example.sharediary.friend.repository.FriendRepository;
 import com.example.sharediary.member.domain.Member;
+import com.example.sharediary.member.dto.request.LoginMemberResponseDto;
 import com.example.sharediary.member.repository.MemberRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,24 +25,26 @@ public class FriendService {
     }
 
     // 친구 추가 요청
-    public void senderFriendRequest(String senderName, String receiverName, String title) {
-        Member sender = memberRepository.findByMemberName(senderName)
+    public void senderFriendRequest(FriendRequestDto friendRequestDto, LoginMemberResponseDto loginMember) {
+        Member sender = memberRepository.findById(loginMember.id())
                 .orElseThrow(() -> new IllegalArgumentException("sender 찾을 수 없음"));
-        Member receiver = memberRepository.findByMemberName(receiverName)
+        Member receiver = memberRepository.findBySenderName(friendRequestDto.getFriendName())
                 .orElseThrow(() -> new IllegalArgumentException("receiver 찾을 수 없음"));
 
         Friend friend = new Friend(); // 엔티티에 protected 넣으면 오류 뚬
         friend.setSender(sender);
         friend.setReceiver(receiver);
-        friend.setTitle(title);
+        friend.setTitle(friendRequestDto.getTitle());
         friend.setStatus(FriendStatus.PENDING);
 
         friendRepository.save(friend);
     }
 
     // 친구 요청 수락
-    public void acceptFriendRequest(Long requestId) {
-        Friend friend = friendRepository.findById(requestId)
+    @Transactional
+    public void acceptFriendRequest(FriendRequestDto friendRequestDto) {
+        Member receiverMember = memberRepository.findBySenderName(friendRequestDto.getFriendName()).orElseThrow();
+        Friend friend = friendRepository.findByReceiver(receiverMember)
                 .orElseThrow(() -> new IllegalArgumentException("친구 요청 찾을 수 없음"));
         if(friend.getStatus() == FriendStatus.PENDING) {
             friend.setStatus(FriendStatus.ACCEPTED);
@@ -53,8 +55,8 @@ public class FriendService {
     }
 
     // 친구 목록 조회
-    public List<FriendResponseDto> getAcceptFriends(String memberName) {
-        Member member = memberRepository.findByMemberName(memberName)
+    public List<FriendResponseDto> getAcceptFriends(String senderName) {
+        Member member = memberRepository.findBySenderName(senderName)
                 .orElseThrow(() -> new IllegalArgumentException("Sender 찾을 수 없음"));
         List<Friend> friends = friendRepository.findBySenderAndStatusOrReceiverAndStatus(member, FriendStatus.ACCEPTED, member, FriendStatus.ACCEPTED);
         return friends.stream()
@@ -62,8 +64,8 @@ public class FriendService {
                         friend.getSender().getMemberId(),
                         friend.getReceiver().getMemberId(),
                         friend.getStatus().name(),
-                        friend.getSender().getMemberName(),
-                        friend.getReceiver().getMemberName(),
+                        friend.getSender().getSenderName(),
+                        friend.getReceiver().getSenderName(),
                         friend.getTitle(),
                         friend.getFriendId()))
                 .collect(Collectors.toList());
@@ -72,7 +74,7 @@ public class FriendService {
 
     // 친구 요청 대기 목록 조회
     public List<FriendResponseDto> getPendingRequests(String receiverName) {
-        Member receiver = memberRepository.findByMemberName(receiverName)
+        Member receiver = memberRepository.findBySenderName(receiverName)
                 .orElseThrow(() -> new RuntimeException("Receiver 찾을 수 없음"));
         List<Friend> friends = friendRepository.findByReceiverAndStatus(receiver, FriendStatus.PENDING);
         return friends.stream()
@@ -80,8 +82,8 @@ public class FriendService {
                         friend.getSender().getMemberId(),
                         friend.getReceiver().getMemberId(),
                         friend.getStatus().name(),
-                        friend.getSender().getMemberName(),
-                        friend.getReceiver().getMemberName(),
+                        friend.getSender().getSenderName(),
+                        friend.getReceiver().getSenderName(),
                         friend.getTitle(),
                         friend.getFriendId()))
                 .collect(Collectors.toList());

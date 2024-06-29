@@ -14,7 +14,8 @@ public class DiaryResponseDto {
     private String content;
     private String sing;
     private Long heartCount;
-    private String memberName;
+    private String senderName;
+    private String receiverName;
 
 // Diary 객체를 DiaryResponseDto 객체로 변환
     public static DiaryResponseDto of(Diary diary){
@@ -24,7 +25,9 @@ public class DiaryResponseDto {
                 .content(diary.getContent())
                 .heartCount(diary.getHeartCount())
                 .sing(diary.getSing())
-                .memberName(diary.getMember().getMemberName())
+                .senderName(diary.getSender().getSenderName())
+                .receiverName(diary.getReceiver().getSenderName())
+
                 .build();
     }
 }

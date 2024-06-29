@@ -1,5 +1,6 @@
 package com.example.sharediary.diary.dto;
 
+import com.example.sharediary.friend.domain.Friend;
 import com.example.sharediary.heart.domain.Heart;
 import com.example.sharediary.member.domain.Member;
 import lombok.*;
@@ -11,11 +12,13 @@ import lombok.*;
 public class DiaryRequestDto {
 
     private Long diaryId;
+    private Long senderId;
     private String content;
     private String title;
     private String sing;
-    private Member member;
+    private Long receiverId;
     private Heart heart;
     private Long heartCount;
+    private String senderName;
 
 }

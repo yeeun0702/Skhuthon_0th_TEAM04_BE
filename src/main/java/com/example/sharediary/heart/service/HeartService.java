@@ -27,10 +27,10 @@ public class HeartService {
     private final HeartRepository heartRepository;
 
     @Transactional
-    public void insertHeart(final Long memberId, final Long diaryId) {
+    public void insertHeart(final Long senderId, final Long diaryId) {
 
         // 사용자 ID를 통해 사용자 객체 조회
-        Member member = memberRepository.findById(memberId)
+        Member member = memberRepository.findById(senderId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자."));
         // 다이어리 ID를 통해 다이어리 객체 조회
         final Diary diary = diaryRepository.findById(diaryId)
@@ -56,9 +56,9 @@ public class HeartService {
     }
 
     @Transactional
-    public void deleteHeart(final Long memberId, final Long diaryId) {
+    public void deleteHeart(final Long senderId, final Long diaryId) {
         // 사용자 ID를 통해 사용자 객체 조회
-        Member member = memberRepository.findById(memberId)
+        Member member = memberRepository.findById(senderId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자."));
         // 다이어리 ID를 통해 다이어리 객체 조회
         final Diary diary = diaryRepository.findById(diaryId)

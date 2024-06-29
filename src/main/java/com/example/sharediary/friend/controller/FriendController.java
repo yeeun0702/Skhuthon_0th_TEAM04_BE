@@ -1,9 +1,9 @@
 package com.example.sharediary.friend.controller;
 
-import com.example.sharediary.friend.domain.Friend;
+import com.example.sharediary.friend.dto.reqeust.FriendRequestDto;
 import com.example.sharediary.friend.dto.response.FriendResponseDto;
 import com.example.sharediary.friend.service.FriendService;
-import org.springframework.http.HttpStatus;
+import com.example.sharediary.member.dto.request.LoginMemberResponseDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,15 +21,16 @@ public class FriendController {
 
     // 친구 요청
     @PostMapping("/request")
-    public ResponseEntity<String> sendFriendRequest(@RequestParam String senderName, @RequestParam String receiverName, @RequestParam String title) {
-        friendService.senderFriendRequest(senderName, receiverName, title);
+    public ResponseEntity<String> sendFriendRequest(@RequestBody FriendRequestDto friendRequestDto, LoginMemberResponseDto loginMember) {
+
+        friendService.senderFriendRequest(friendRequestDto, loginMember);
         return ResponseEntity.ok("친구 요청 발송");
     }
 
     // 친구 요청 수락
     @PostMapping("/accept")
-    public ResponseEntity<String> acceptFriendRequest(@RequestParam Long friendId) {
-        friendService.acceptFriendRequest(friendId);
+    public ResponseEntity<String> acceptFriendRequest(@RequestBody FriendRequestDto friendRequestDto) {
+        friendService.acceptFriendRequest(friendRequestDto);
         return ResponseEntity.ok("친구 요청 수락 성공, 친구 맺음!");
     }
 
