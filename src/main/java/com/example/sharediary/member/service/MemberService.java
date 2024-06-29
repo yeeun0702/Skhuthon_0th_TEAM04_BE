@@ -38,14 +38,16 @@ public class MemberService {
     }
 
 
-    public TokenResponseDto createToken(final TokenRequestDto request) {
+    public MemberResponseDto createToken(final TokenRequestDto request) {
         final Member member = memberRepository.findBySenderNameAndPassword(request.getSenderName(), request.getPassword());
+
+        final TokenResponseDto tokenResponse = new TokenResponseDto(tokenProvider.createToken(member.getSenderName()));
 
         if (member == null) {
             throw new IllegalArgumentException("잘못된 아이디 또는 비밀번호입니다.");
         }
 
-        return new TokenResponseDto(tokenProvider.createToken(member.getSenderName()));
+        return new MemberResponseDto(member.getMemberId(), member.getSenderName(), tokenResponse);
     }
 
     @Transactional(readOnly = true)
