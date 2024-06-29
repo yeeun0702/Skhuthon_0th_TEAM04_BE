@@ -35,7 +35,7 @@ public class FriendService {
         friend.setSender(sender);
         friend.setReceiver(receiver);
         friend.setTitle(friendRequestDto.getTitle());
-        friend.setStatus(FriendStatus.PENDING);
+        friend.setStatus(FriendStatus.ACCEPTED);
 
         friendRepository.save(friend);
     }
@@ -54,6 +54,8 @@ public class FriendService {
         }
     }
 
+    
+
     // 친구 목록 조회
     public List<FriendResponseDto> getAcceptFriends(Long memberId) {
         Member member = memberRepository.findByMemberId(memberId)
@@ -64,8 +66,6 @@ public class FriendService {
                         friend.getSender().getMemberId(),
                         friend.getReceiver().getMemberId(),
                         friend.getStatus().name(),
-                        friend.getSender().getSenderName(),
-                        friend.getReceiver().getSenderName(),
                         friend.getTitle(),
                         friend.getFriendId()))
                 .collect(Collectors.toList());
@@ -82,8 +82,6 @@ public class FriendService {
                         friend.getSender().getMemberId(),
                         friend.getReceiver().getMemberId(),
                         friend.getStatus().name(),
-                        friend.getSender().getSenderName(),
-                        friend.getReceiver().getSenderName(),
                         friend.getTitle(),
                         friend.getFriendId()))
                 .collect(Collectors.toList());

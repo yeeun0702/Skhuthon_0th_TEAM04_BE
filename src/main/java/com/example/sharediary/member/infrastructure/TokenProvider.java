@@ -5,6 +5,7 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +14,7 @@ import java.util.Arrays;
 import java.util.Date;
 
 @Component
+@Slf4j
 public class TokenProvider {
     @Value("${jwt.header}")
     private String COOKIE_NAME;
@@ -42,6 +44,7 @@ public class TokenProvider {
     }
 
     public String getPayload(final String token) {
+
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())
                 .build()
@@ -51,12 +54,14 @@ public class TokenProvider {
     }
 
     public String getTokenFromCookies(final HttpServletRequest request) {
-        validateRequestCookies(request);
-        return Arrays.stream(request.getCookies())
-                .filter(cookie -> cookie.getName().equals(COOKIE_NAME))
-                .findFirst()
-                .map(Cookie::getValue)
-                .orElseThrow(() -> new JwtException(LOGIN_REQUIRED));
+        log.info(request.getHeader("Authorization"));
+        return request.getHeader("Authorization");
+//        validateRequestCookies(request);
+//        return Arrays.stream(request.getCookies())
+//                .filter(cookie -> cookie.getName().equals(COOKIE_NAME))
+//                .findFirst()
+//                .map(Cookie::getValue)
+//                .orElseThrow(() -> new JwtException(LOGIN_REQUIRED));
     }
 
     private void validateRequestCookies(final HttpServletRequest request) {

@@ -2,6 +2,7 @@ package com.example.sharediary.member.domain;
 
 import com.example.sharediary.comment.domain.Comment;
 import com.example.sharediary.diary.domain.Diary;
+import com.example.sharediary.friend.domain.Friend;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -18,20 +19,22 @@ public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "MEMBER_ID")
+    @Column(name = "member_id")
     private Long memberId;
 
     private String password;
     private String senderName;
 
-    /*@OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Diary> senderDiaries = new ArrayList<>();
-
-    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Diary> receiverDiaries = new ArrayList<>();
+//    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Diary> senderDiaries = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Diary> receiverDiaries = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> comments = new ArrayList<>();*/
+    private List<Comment> comments = new ArrayList<>();
+
+
 
     @Builder
     public Member(String senderName, String password) {
