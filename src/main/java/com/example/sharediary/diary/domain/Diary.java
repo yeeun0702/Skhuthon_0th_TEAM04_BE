@@ -47,5 +47,4 @@ public class Diary {
         this.content = diaryRequestDto.getContent();
         this. sing = diaryRequestDto.getSing();
     }
-
 }

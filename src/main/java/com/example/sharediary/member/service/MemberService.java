@@ -10,6 +10,7 @@ import com.example.sharediary.member.infrastructure.TokenProvider;
 import com.example.sharediary.member.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.HttpClientErrorException;
 
 @Service
 public class MemberService {
@@ -27,10 +28,13 @@ public class MemberService {
         final String memberName = request.getMemberName();
         final String password = request.getPassword();
 
+        if (memberRepository.findByMemberName(memberName).isPresent()) {
+            throw new IllegalArgumentException("이미 존재하는 닉네임입니다.");
+        }
 
-        final Member member = new Member(memberName, password);
+            final Member member = new Member(memberName, password);
 
-        return new MemberResponseDto(memberRepository.save(member));
+            return new MemberResponseDto(memberRepository.save(member));
     }
 
 
