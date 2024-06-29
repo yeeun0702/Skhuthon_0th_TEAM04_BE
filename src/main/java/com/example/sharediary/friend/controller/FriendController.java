@@ -36,15 +36,15 @@ public class FriendController {
 
     // 친구 목록 조회
     @GetMapping("/list")
-    public ResponseEntity<List<FriendResponseDto>> getAcceptFriend(@RequestParam String memberId) {
+    public ResponseEntity<List<FriendResponseDto>> getAcceptFriend(@RequestParam Long memberId) {
         List<FriendResponseDto>acceptedFriends = friendService.getAcceptFriends(memberId);
         return ResponseEntity.ok(acceptedFriends);
     }
 
     // 친구 요청 대기 목록 조회
     @GetMapping("/request")
-    public ResponseEntity<List<FriendResponseDto>> getPendingRequests(@RequestParam String receiverName) {
-        List<FriendResponseDto> pendingRequests = friendService.getPendingRequests(receiverName);
+    public ResponseEntity<List<FriendResponseDto>> getPendingRequests(@RequestParam Long memberId) {
+        List<FriendResponseDto> pendingRequests = friendService.getPendingRequests(memberId);
         return ResponseEntity.ok(pendingRequests);
     }
 }
