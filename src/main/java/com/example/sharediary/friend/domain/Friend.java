@@ -1,5 +1,6 @@
 package com.example.sharediary.friend.domain;
 
+import com.example.sharediary.diary.domain.Diary;
 import com.example.sharediary.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.*;
@@ -24,6 +25,10 @@ public class Friend {
     @ManyToOne
     @JoinColumn(nullable = false)
     private Member receiver;
+
+    @OneToOne
+    @JoinColumn(nullable = false)
+    private Diary diary;
 
     // 교환일기 제목
     private String title;

@@ -3,6 +3,8 @@ package com.example.sharediary.diary.dto;
 import com.example.sharediary.diary.domain.Diary;
 import lombok.*;
 
+import java.util.List;
+
 @Setter
 @Getter
 @AllArgsConstructor
@@ -14,20 +16,16 @@ public class DiaryResponseDto {
     private String content;
     private String sing;
     private Long heartCount;
-    private String senderName;
-    private String receiverName;
+    private String friendName;
 
-// Diary 객체를 DiaryResponseDto 객체로 변환
-    public static DiaryResponseDto of(Diary diary){
+    // Diary 객체를 DiaryResponseDto 객체로 변환
+    public static DiaryResponseDto of(Diary diary) {
         return DiaryResponseDto.builder()
                 .diaryId(diary.getDiaryId())
                 .title(diary.getTitle())
                 .content(diary.getContent())
                 .heartCount(diary.getHeartCount())
                 .sing(diary.getSing())
-                .senderName(diary.getSender().getSenderName())
-                .receiverName(diary.getReceiver().getSenderName())
-
                 .build();
     }
 }
