@@ -25,33 +25,33 @@ public class MemberService {
 
     // 회원가입
     public MemberResponseDto save(final MemberRequestDto request) {
-        final String memberName = request.getMemberName();
+        final String senderName = request.getSenderName();
         final String password = request.getPassword();
 
-        if (memberRepository.findByMemberName(memberName).isPresent()) {
+        if (memberRepository.findBySenderName(senderName).isPresent()) {
             throw new IllegalArgumentException("이미 존재하는 닉네임입니다.");
         }
 
-            final Member member = new Member(memberName, password);
+            final Member member = new Member(senderName, password);
 
             return new MemberResponseDto(memberRepository.save(member));
     }
 
 
     public TokenResponseDto createToken(final TokenRequestDto request) {
-        final Member member = memberRepository.findByMemberNameAndPassword(request.getMemberName(), request.getPassword());
+        final Member member = memberRepository.findBySenderNameAndPassword(request.getSenderName(), request.getPassword());
 
         if (member == null) {
             throw new IllegalArgumentException("잘못된 아이디 또는 비밀번호입니다.");
         }
 
-        return new TokenResponseDto(tokenProvider.createToken(member.getMemberName()));
+        return new TokenResponseDto(tokenProvider.createToken(member.getSenderName()));
     }
 
     @Transactional(readOnly = true)
     public LoginMemberResponseDto findLoginMemberByToken(final String token) {
-        final String memberName = tokenProvider.getPayload(token);
-        final Member member = memberRepository.findByMemberName(memberName)
+        final String senderName = tokenProvider.getPayload(token);
+        final Member member = memberRepository.findBySenderName(senderName)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
         return LoginMemberResponseDto.from(member);
     }

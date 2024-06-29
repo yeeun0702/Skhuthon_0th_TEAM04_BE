@@ -3,13 +3,13 @@ package com.example.sharediary.member.dto.request;
 public class MemberRequestDto {
 
     private String password;
-    private String memberName;
+    private String senderName;
 
     public MemberRequestDto(){}
 
     public MemberRequestDto( final String password, final String memberName) {
         this.password = password;
-        this.memberName = memberName;
+        this.senderName = memberName;
     }
 
 
@@ -17,8 +17,8 @@ public class MemberRequestDto {
         return password;
     }
 
-    public String getMemberName() {
-        return memberName;
+    public String getSenderName() {
+        return senderName;
     }
 
 }

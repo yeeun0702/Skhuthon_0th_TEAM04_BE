@@ -31,7 +31,8 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authorizationHandlerInterceptor)
                 .addPathPatterns("/admin/**")
-                .excludePathPatterns("http://localhost:5173");
+                .excludePathPatterns("http://localhost:5173")
+                .excludePathPatterns("http://localhost:8080");
     }
     @Override
     public void addCorsMappings(CorsRegistry registry){

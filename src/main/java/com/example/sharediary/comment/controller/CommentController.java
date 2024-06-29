@@ -25,8 +25,8 @@ public class CommentController {
 
     @PostMapping("/create/{diaryId}")
     public ResponseEntity<String> createComment(@PathVariable("diaryId") Long diaryId, @RequestBody CommentRequestDto commentRequestDto, LoginMemberResponseDto member) {
-        Long memberId = member.id();
-        commentService.createComment(commentRequestDto, diaryId, memberId);
+        Long senderId = member.id();
+        commentService.createComment(commentRequestDto, diaryId, senderId);
         return ResponseEntity.ok("댓글이 성공적으로 생성되었습니다. 일기 ID: " + diaryId);
     }
 
